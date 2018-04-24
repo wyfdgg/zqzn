@@ -1,0 +1,15 @@
+apt-get install python3
+apt install python3-pip
+pip3 install fasttext
+pip3 freeze
+whereis pip3
+sudo uget-gtk
+ibus-daemon -drx  解决输入法无法正常输入的命令
+ssh zs@rd2.aitek.ai -p 40022       pwd:zhouzusheng
+scp  远程上传下载
+ls -lht 查看文件大小
+ls -l 查看文件权限
+chmod 修改权限
+df -h 查看系统空间使用情况
+
+
