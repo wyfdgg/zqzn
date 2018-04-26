@@ -9,7 +9,7 @@ class FT:
         self.classifier = classifier
 
     def train(self, filename_train, filename_model):
-        classifier = fasttext.supervised(filename_train, filename_model, lr=0.2, dim=200, word_ngrams=2, loss='hs',
+        classifier = fasttext.supervised(filename_train, filename_model, lr=0.2, dim=100, word_ngrams=2, loss='hs',
                                          bucket=4000000, label_prefix="__label__")
         print('train success')
         self.classifier = classifier
@@ -53,6 +53,7 @@ class FT:
         print(text_predict_labels)  # 预测结果类别
         print(text_labels)  # 测试数据类别
 
+        error_texts = ['label_correct\tlabel_predict\t'] #存放预测错误的数据
         A = dict.fromkeys(text_labels, 0)  # 预测正确的各个类的数目
         B = dict.fromkeys(text_labels, 0)  # 测试数据集中各个类的数目
         C = dict.fromkeys(text_predict_labels, 0)  # 预测结果中各个类的数目
@@ -61,7 +62,8 @@ class FT:
             C[labels_predict[i]] += 1
             if labels_right[i] == labels_predict[i]:
                 A[labels_right[i]] += 1
-
+            else: #预测错误的数据
+                error_texts.append(labels_right[i] + '\t' + labels_predict[i] + '\t' + texts[i])
         print(A)
         print(B)
         print(C)
@@ -74,6 +76,13 @@ class FT:
                 print("%s:\t p:%f\t r:%f\t f:%f" % (key, p, r, f))
             except:
                 print("error:", key, "right:", A.get(key, 0), "real:", B.get(key, 0), "predict:", C.get(key, 0))
+
+        print('write error.txt ')
+        with open('error.txt', 'w', encoding='utf-8') as fr:
+            fr.write(''.join(error_texts))
+
+
+
 
 if __name__ == "__main__":
     ft = FT()
